@@ -1,4 +1,4 @@
-package co.censo.censowalletintegration
+package co.censo.walletintegration
 
 import android.content.ContentProvider
 import android.content.ContentValues

@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "co.censo.censowalletintegration"
+    namespace = "co.censo.walletintegration"
     compileSdk = 34
 
     defaultConfig {

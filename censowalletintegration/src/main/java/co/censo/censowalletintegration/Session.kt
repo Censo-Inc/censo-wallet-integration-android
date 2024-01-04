@@ -1,4 +1,4 @@
-package co.censo.censowalletintegration
+package co.censo.walletintegration
 
 import android.util.Log
 import co.censo.core.model.Base64EncodedData

@@ -1,6 +1,6 @@
-package co.censo.censowalletintegration
+package co.censo.walletintegration
 
-import co.censo.censowalletintegration.ECPublicKeyDecoder.getPublicKeyFromBytes
+import co.censo.walletintegration.ECPublicKeyDecoder.getPublicKeyFromBytes
 import org.bouncycastle.crypto.digests.SHA256Digest
 import org.bouncycastle.crypto.generators.KDF2BytesGenerator
 import org.bouncycastle.crypto.params.KDFParameters

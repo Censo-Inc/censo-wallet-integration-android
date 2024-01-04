@@ -1,4 +1,4 @@
-package co.censo.censowalletintegration
+package co.censo.walletintegration
 
 import java.security.MessageDigest
 

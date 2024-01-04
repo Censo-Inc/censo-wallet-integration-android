@@ -1,6 +1,6 @@
 package co.censo.core.model
 
-import co.censo.censowalletintegration.ECPublicKeyDecoder
+import co.censo.walletintegration.ECPublicKeyDecoder
 import io.github.novacrypto.base58.Base58
 import kotlinx.serialization.Serializable
 import org.bouncycastle.jcajce.provider.asymmetric.ec.BCECPublicKey

@@ -1,4 +1,4 @@
-package co.censo.censowalletintegration
+package co.censo.walletintegration
 
 import android.util.Log
 import io.github.novacrypto.base58.Base58

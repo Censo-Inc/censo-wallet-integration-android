@@ -1,4 +1,4 @@
-package co.censo.censowalletintegration
+package co.censo.walletintegration
 
 import okhttp3.ResponseBody
 import retrofit2.http.Body
