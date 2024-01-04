@@ -2,6 +2,8 @@ plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
     kotlin("plugin.serialization")
+    id("maven-publish")
+    id("signing")
 }
 
 android {
@@ -13,6 +15,10 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
+
+        aarMetadata {
+            minCompileSdk = 26
+        }
     }
 
     buildTypes {
@@ -31,7 +37,62 @@ android {
     kotlinOptions {
         jvmTarget = "11"
     }
+
+
+    publishing {
+        singleVariant("release") {
+            withSourcesJar()
+        }
+    }
+
+    testFixtures {
+        enable = true
+    }
 }
+
+afterEvaluate {
+    publishing {
+        publications {
+            create<MavenPublication>("release") {
+                groupId = "co.censo.walletintegration"
+                artifactId = "censowalletintegration"
+                version = "0.1.0"
+                from(components["release"])
+                pom.withXml {
+                    asNode().let {
+                        it.appendNode("name", "Censo Wallet Integration")
+                        it.appendNode("description", "SDK to allow Android wallets to integration with the Censo seed phrase manager")
+                        it.appendNode("url", "https://github.com/Censo-Inc/censo-wallet-integration-android")
+                        it.appendNode("scm").appendNode("url", "https://github.com/Censo-Inc/censo-wallet-integration-android.git")
+                        it.appendNode("licenses").appendNode("license").let {
+                            it.appendNode("name", "MIT")
+                            it.appendNode("url", "https://opensource.org/license/mit/")
+                        }
+                        it.appendNode("developers").appendNode("developer").let {
+                            it.appendNode("id", "censo")
+                            it.appendNode("name", "Censo, Inc.")
+                            it.appendNode("email", "developers@censo.co")
+                        }
+                    }
+                }
+            }
+        }
+        repositories {
+            maven {
+                url = uri("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
+                credentials {
+                    username = properties["ossrhUsername"].toString()
+                    password = properties["ossrhPassword"].toString()
+                }
+            }
+        }
+    }
+
+    signing {
+        sign(publishing.publications["release"])
+    }
+}
+
 
 dependencies {
 
