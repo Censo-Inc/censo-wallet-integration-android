@@ -19,7 +19,7 @@ will display the seed phrase and allow the user to securely save it.
 First, load and instantiate the SDK:
 
 ```kotlin
-val sdk = new CensoWalletIntegration();
+val sdk = CensoWalletIntegration()
 ```
 
 Then, when a user wishes to export their seed phrase to their Censo app, initiate a session:
@@ -34,7 +34,7 @@ user's Censo app has established the secure channel.
 ```kotlin
 val deepLink = session.connect(onConnected: {
   // get the binary representation of the user's seed phrase as a hex number
-  let seedPhraseEntropy = "..."
+  val seedPhraseEntropy = "..."
   session.phrase(seedPhraseEntropy)
 }
 ```
