@@ -19,6 +19,8 @@ will display the seed phrase and allow the user to securely save it.
 First, load and instantiate the SDK:
 
 ```kotlin
+import co.censo.walletintegration.CensoWalletIntegration
+
 val sdk = CensoWalletIntegration()
 ```
 
