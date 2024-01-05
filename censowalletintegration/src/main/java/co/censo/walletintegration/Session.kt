@@ -33,7 +33,7 @@ private const val AUTHORIZATION_HEADER = "Authorization"
 private const val DEVICE_PUBLIC_KEY_HEADER = "X-Censo-Device-Public-Key"
 private const val TIMESTAMP_HEADER = "X-Censo-Timestamp"
 
-class Session(private val name: String, apiUrl: String, apiVersion: String, private val linkScheme: String, private val linkVersion: String, private val onFinished: (Boolean) -> Unit) {
+class Session(private val name: String, apiUrl: String, apiVersion: String, private val linkScheme: String, private val linkHost: String, private val linkVersion: String, private val onFinished: (Boolean) -> Unit) {
     private val channelKeyPair: KeyPair = ECHelper.createECKeyPair()
     private val authKeyPair: KeyPair = ECHelper.createECKeyPair()
     private val keyPairsCreatedAt: Instant = Clock.System.now()
@@ -163,7 +163,7 @@ class Session(private val name: String, apiUrl: String, apiVersion: String, priv
                 }
             }
             connectionChecker.execute(checkConnected)
-            "$linkScheme://$linkVersion/${Base58.base58Encode(publicKeyBytes)}/$dateInMillis/$encodedSignature/$encodedName"
+            "$linkScheme://$linkHost/$linkVersion/${Base58.base58Encode(publicKeyBytes)}/$dateInMillis/$encodedSignature/$encodedName"
         } else {
             throw Exception("Could not verify signature")
         }
