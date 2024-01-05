@@ -3,6 +3,7 @@ package co.censo.walletintegration
 import android.util.Log
 import io.github.novacrypto.base58.Base58
 import io.mockk.every
+import io.mockk.mockkObject
 import io.mockk.mockkStatic
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
@@ -13,12 +14,16 @@ import org.junit.Test
 import org.junit.Assert.*
 import java.time.Duration
 import kotlinx.datetime.Clock
+import kotlinx.datetime.Instant
+import kotlinx.datetime.Instant.Companion.now
 import kotlinx.serialization.json.Json
 import okhttp3.mockwebserver.RecordedRequest
 import org.junit.Before
 import java.nio.charset.Charset
 import java.security.KeyPair
 import java.util.Base64
+import kotlin.time.Duration.Companion.minutes
+import kotlin.time.Duration.Companion.seconds
 
 class TestSession {
     @Before
@@ -339,6 +344,31 @@ class TestSession {
                 "GET" to "/v1/import/${session.channel()}",
                 "POST" to "/v1/import/${session.channel()}/encrypted"
             ))
+        }
+    }
+
+    @Test
+    fun `Test session expiration`() {
+        var result: Boolean? = null
+        val onFinished: (Boolean) -> Unit = { r -> result = r }
+
+        val time1 = Clock.System.now()
+        val time2 = time1 + 11.minutes
+        mockkObject(Clock.System)
+        every { Clock.System.now() } returns time1 andThen time2
+
+        withMockServer(onFinished) { mockWebServer, session ->
+            session.connect {}
+
+            Awaitility.await().atMost(
+                Duration.ofSeconds(1)
+            ).until {
+                result == false
+            }
+
+            assertEquals(false, result)
+
+            verifyRequests(mockWebServer, listOf())
         }
     }
 

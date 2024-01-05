@@ -61,7 +61,7 @@ afterEvaluate {
                 pom.withXml {
                     asNode().let {
                         it.appendNode("name", "Censo Wallet Integration")
-                        it.appendNode("description", "SDK to allow Android wallets to integration with the Censo seed phrase manager")
+                        it.appendNode("description", "SDK to allow Android wallets to integrate with the Censo seed phrase manager")
                         it.appendNode("url", "https://github.com/Censo-Inc/censo-wallet-integration-android")
                         it.appendNode("scm").appendNode("url", "https://github.com/Censo-Inc/censo-wallet-integration-android.git")
                         it.appendNode("licenses").appendNode("license").let {
