@@ -45,3 +45,33 @@ Once the user has received the seed phrase in their Censo app, the `onFinished` 
 will be called with `true`. If there's an error or timeout along the way, `onFinished`
 will instead be called with `false`. In either case, the session will be closed at that
 point.
+
+## Publishing to maven
+
+First, sign up on https://issues.sonatype.org/browse/OSSRH using your JIRA username.
+
+Next, upload your PGP key to keyserver.ubuntu.com
+
+Then, add to e.g. `~/.gradle/gradle.properties`:
+
+```
+signing.keyId=YourKeyId
+signing.password=YourPublicKeyPassword
+signing.secretKeyRingFile=PathToYourKeyRingFile
+
+ossrhUsername=your-jira-id
+ossrhPassword=your-jira-password
+```
+
+See https://docs.gradle.org/current/userguide/signing_plugin.html#sec:signatory_credentials for
+details about how to get the `signing.` data. The ossrh credentials are those you created in the
+first step.
+
+Now, you should be able to publish using `./gradlew publish` (don't forget to bump the version
+number in `censowalletintegration/build.gradle.kts`)
+
+If this succeeds, there will be a staging build available on https://s01.oss.sonatype.org/#stagingRepositories
+(log in using your ossrh credentials).
+
+Select the build and hit the "Close" button. If the close completes successfully, then select the build again
+and hit the "Release" button. The release should automatically be deployed.
