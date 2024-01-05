@@ -29,7 +29,7 @@ class TestSession {
 
     @Test
     fun `Test session instantiation`() {
-        Session("name", "http://apiUrl", "apiVersion", "linkScheme", "linkHost", "linkVersion") {}
+        Session("name", "http://apiUrl", "apiVersion", "linkScheme", "linkVersion") {}
     }
 
     private fun withMockServer(onFinished: (Boolean) -> Unit, test: (MockWebServer, Session) -> Unit) {
@@ -40,7 +40,6 @@ class TestSession {
             mockWebServer.url("/").toString().removeSuffix("/"),
             "v1",
             "linkScheme",
-            "linkHost",
             "v1",
             onFinished
         )
@@ -62,7 +61,7 @@ class TestSession {
             )
 
             val link = session.connect {}
-            assertTrue(link.startsWith("linkScheme://linkHost/v1"))
+            assertTrue(link.startsWith("linkScheme://import/v1"))
 
             Awaitility.await().atMost(
                 Duration.ofSeconds(1)
@@ -157,7 +156,7 @@ class TestSession {
             val link = session.connect {
                 connected = true
             }
-            assertTrue(link.startsWith("linkScheme://linkHost/v1"))
+            assertTrue(link.startsWith("linkScheme://import/v1"))
 
             Awaitility.await().atMost(Duration.ofSeconds(3)).until { connected }
 
@@ -196,7 +195,7 @@ class TestSession {
             val link = session.connect {
                 session.phrase(binaryPhrase)
             }
-            assertTrue(link.startsWith("linkScheme://linkHost/v1"))
+            assertTrue(link.startsWith("linkScheme://import/v1"))
 
             Awaitility.await().atMost(Duration.ofSeconds(1)).until { result }
 
@@ -268,7 +267,7 @@ class TestSession {
             val link = session.connect {
                 connected = true
             }
-            assertTrue(link.startsWith("linkScheme://linkHost/v1"))
+            assertTrue(link.startsWith("linkScheme://import/v1"))
 
             Awaitility.await().atMost(Duration.ofSeconds(5)).until { connected }
 

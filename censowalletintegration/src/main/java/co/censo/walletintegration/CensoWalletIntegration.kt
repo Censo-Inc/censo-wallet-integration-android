@@ -9,14 +9,13 @@ class CensoWalletIntegration: ContentProvider() {
     val apiUrl = "https://api.censo.co"
     val apiVersion = "v1"
     val linkScheme = "censo-main"
-    val linkHost = "import"
     val linkVersion = "v1"
     private var appName: String = "UNKNOWN"
 
     fun initiate(onFinished: (Boolean) -> Unit): Session {
         return Session(
-            name = appName, apiUrl = apiUrl, apiVersion = apiVersion, linkScheme = linkScheme,
-            linkHost = linkHost, linkVersion = linkVersion, onFinished = onFinished
+            name = appName, apiUrl = apiUrl, apiVersion = apiVersion,
+            linkScheme = linkScheme, linkVersion = linkVersion, onFinished = onFinished
         )
     }
 
