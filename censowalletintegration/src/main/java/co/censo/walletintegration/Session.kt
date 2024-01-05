@@ -28,6 +28,8 @@ import java.time.Duration
 import java.util.Base64
 import java.util.concurrent.Executors.newSingleThreadExecutor
 import java.util.concurrent.RejectedExecutionException
+import kotlin.time.Duration.Companion.minutes
+import kotlin.time.Duration.Companion.seconds
 
 private const val AUTHORIZATION_HEADER = "Authorization"
 private const val DEVICE_PUBLIC_KEY_HEADER = "X-Censo-Device-Public-Key"
@@ -148,16 +150,22 @@ class Session(private val name: String, apiUrl: String, apiVersion: String, priv
         return if (channelKeyPair.verify(signature, dataToSign)) {
             var checkConnected: Runnable? = null
             checkConnected = Runnable {
-                // TODO - stop checking 10 seconds after keypair generation
-
-                if (!finished && ownerDeviceKey == null) {
-                    checkConnection(onConnected)
-                    Thread.sleep(2000)
-                    try {
-                        connectionChecker.execute(checkConnected)
-                    } catch (e: RejectedExecutionException) {
-                        if (!finished) {
-                            Log.e("CENSO", "Connection check task rejected but session is not finished")
+                // check if session is expired (10 minutes after keypair generation)
+                if (Clock.System.now() - keyPairsCreatedAt > 10.minutes) {
+                    cancel()
+                } else {
+                    if (!finished && ownerDeviceKey == null) {
+                        checkConnection(onConnected)
+                        Thread.sleep(2000)
+                        try {
+                            connectionChecker.execute(checkConnected)
+                        } catch (e: RejectedExecutionException) {
+                            if (!finished) {
+                                Log.e(
+                                    "CENSO",
+                                    "Connection check task rejected but session is not finished"
+                                )
+                            }
                         }
                     }
                 }
