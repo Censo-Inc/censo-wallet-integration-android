@@ -143,8 +143,8 @@ class Session(private val name: String, apiUrl: String, apiVersion: String, priv
         val nameHash = name.sha256digest()
         val dataToSign = dateInMillisAsBytes + nameHash
         val signature = channelKeyPair.sign(dataToSign)
-        val encodedSignature = base64UrlEncoder.encode(signature)
-        val encodedName = base64UrlEncoder.encode(name.encodeToByteArray())
+        val encodedSignature = base64UrlEncoder.encodeToString(signature)
+        val encodedName = base64UrlEncoder.encodeToString(name.encodeToByteArray())
         return if (channelKeyPair.verify(signature, dataToSign)) {
             var checkConnected: Runnable? = null
             checkConnected = Runnable {
