@@ -8,12 +8,15 @@ import android.net.Uri
 class CensoWalletIntegration: ContentProvider() {
     val apiUrl = "https://api.censo.co"
     val apiVersion = "v1"
-    val linkScheme = "censo-import"
+    val linkScheme = "censo-main"
     val linkVersion = "v1"
     private var appName: String = "UNKNOWN"
 
     fun initiate(onFinished: (Boolean) -> Unit): Session {
-        return Session(appName, apiUrl, apiVersion, linkScheme, linkVersion, onFinished)
+        return Session(
+            name = appName, apiUrl = apiUrl, apiVersion = apiVersion,
+            linkScheme = linkScheme, linkVersion = linkVersion, onFinished = onFinished
+        )
     }
 
     override fun onCreate(): Boolean {

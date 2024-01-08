@@ -66,7 +66,7 @@ class TestSession {
             )
 
             val link = session.connect {}
-            assertTrue(link.startsWith("linkScheme://v1"))
+            assertTrue(link.startsWith("linkScheme://import/v1"))
 
             Awaitility.await().atMost(
                 Duration.ofSeconds(1)
@@ -161,7 +161,7 @@ class TestSession {
             val link = session.connect {
                 connected = true
             }
-            assertTrue(link.startsWith("linkScheme://v1"))
+            assertTrue(link.startsWith("linkScheme://import/v1"))
 
             Awaitility.await().atMost(Duration.ofSeconds(3)).until { connected }
 
@@ -200,7 +200,7 @@ class TestSession {
             val link = session.connect {
                 session.phrase(binaryPhrase)
             }
-            assertTrue(link.startsWith("linkScheme://v1"))
+            assertTrue(link.startsWith("linkScheme://import/v1"))
 
             Awaitility.await().atMost(Duration.ofSeconds(1)).until { result }
 
@@ -272,7 +272,7 @@ class TestSession {
             val link = session.connect {
                 connected = true
             }
-            assertTrue(link.startsWith("linkScheme://v1"))
+            assertTrue(link.startsWith("linkScheme://import/v1"))
 
             Awaitility.await().atMost(Duration.ofSeconds(5)).until { connected }
 

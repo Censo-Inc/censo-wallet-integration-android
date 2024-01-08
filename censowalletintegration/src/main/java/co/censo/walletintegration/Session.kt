@@ -171,7 +171,7 @@ class Session(private val name: String, apiUrl: String, apiVersion: String, priv
                 }
             }
             connectionChecker.execute(checkConnected)
-            "$linkScheme://$linkVersion/${Base58.base58Encode(publicKeyBytes)}/$dateInMillis/$encodedSignature/$encodedName"
+            "$linkScheme://import/$linkVersion/${Base58.base58Encode(publicKeyBytes)}/$dateInMillis/$encodedSignature/$encodedName"
         } else {
             throw Exception("Could not verify signature")
         }
