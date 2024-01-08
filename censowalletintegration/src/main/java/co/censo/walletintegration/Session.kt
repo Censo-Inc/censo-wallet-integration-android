@@ -81,11 +81,7 @@ class Session(private val name: String, apiUrl: String, apiVersion: String, priv
         return base64UrlEncoder.encodeToString(channelKeyRaw().sha256digest())
     }
 
-    fun channelKeyRaw(): ByteArray {
-        return (channelKeyPair.public as BCECPublicKey).q.let {
-            it.affineXCoord.encoded + it.affineYCoord.encoded
-        }
-    }
+    fun channelKeyRaw() = channelKeyPair.publicRaw()
 
     fun cancel() {
         finished = true
@@ -194,11 +190,8 @@ fun PublicKey.verify(signature: ByteArray, dataToSign: ByteArray): Boolean {
     return signer.verify(signature)
 }
 
-fun KeyPair.publicRaw(): ByteArray {
-    return (this.public as BCECPublicKey).q.let {
-        it.affineXCoord.encoded + it.affineYCoord.encoded
-    }
-}
+fun KeyPair.publicRaw() =
+    ECPublicKeyDecoder.extractUncompressedPublicKey(this.public.encoded)
 
 fun Request.dataToSign(timestampOrChallenge: String): ByteArray {
     val requestPathAndQueryParams =
