@@ -56,7 +56,7 @@ afterEvaluate {
             create<MavenPublication>("release") {
                 groupId = "co.censo.walletintegration"
                 artifactId = "censowalletintegration"
-                version = "0.1.0"
+                version = "0.2.1"
                 from(components["release"])
                 pom.withXml {
                     asNode().let {
